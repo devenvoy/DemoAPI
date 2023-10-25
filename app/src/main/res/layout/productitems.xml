@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imgcard"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="10dp">
+
+                <ImageView
+                    android:id="@+id/pimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bproducts3" />
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/ptitle"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/imgcard"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="I Phone 8"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/pprice"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/ptitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:text="I Phone 8"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/prating"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/pprice"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:text="I Phone 8"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
