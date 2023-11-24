@@ -13,8 +13,8 @@ import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var recView: RecyclerView
-    val userList = ArrayList<User>()
+    private lateinit var recView: RecyclerView
+    private val userList = ArrayList<User>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,29 +33,27 @@ class MainActivity : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this@MainActivity)
         val url = "https://jsonplaceholder.typicode.com/users"
 
-        val stringRequest = StringRequest(
-            Request.Method.GET, url, {
-                var jArr = JSONArray(it)
-                for (index in 0 until jArr.length()) {
-                    var jb1 = jArr.getJSONObject(index)
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            {
+                val jArr = JSONArray(it)
+
+                for (index in 0..<jArr.length()) {
+                    val jObj = jArr.getJSONObject(index)
                     userList.add(
                         User(
-                            jb1.getInt("id"),
-                            jb1.getString("name"),
-                            jb1.getString("username"),
-                            jb1.getString("email")
+                            jObj.getInt("id"),
+                            jObj.getString("name"),
+                            jObj.getString("username"),
+                            jObj.getString("email"),
                         )
                     )
+
+                    val myRecAdapter = MyRecAdapter(this, userList)
+                    recView.adapter = myRecAdapter
                 }
-
-
-                var myRecAdapter = MyRecAdapter(this@MainActivity, userList)
-
-                recView.adapter = myRecAdapter
-
             },
             {
-                Log.e("E====", "${it.localizedMessage}")
+                Log.e("E====", it.localizedMessage!!.toString())
             })
 
         queue.add(stringRequest)

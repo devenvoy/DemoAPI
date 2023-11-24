@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 class MyRecAdapter2(var secondActivity: SecondActivity, var productlist: ArrayList<Product>) :
-    RecyclerView.Adapter<MyRecAdapter2.Myclass>() {
+    RecyclerView.Adapter<MyRecAdapter2.MyClass>() {
 
-    class Myclass(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var image: ImageView
         var title: TextView
         var price: TextView
@@ -27,14 +27,14 @@ class MyRecAdapter2(var secondActivity: SecondActivity, var productlist: ArrayLi
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Myclass {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyClass {
         val view = LayoutInflater.from(secondActivity).inflate(R.layout.productitems, parent, false)
-        return Myclass(view)
+        return MyClass(view)
     }
 
     override fun getItemCount(): Int = productlist.size
 
-    override fun onBindViewHolder(holder: Myclass, position: Int) {
+    override fun onBindViewHolder(holder: MyClass, position: Int) {
 
         Glide.with(secondActivity).load(productlist[position].thumbnail).into(holder.image)
         holder.title.text = productlist[position].title

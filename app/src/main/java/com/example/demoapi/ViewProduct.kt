@@ -2,54 +2,59 @@ package com.example.demoapi
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.example.demoapi.SecondActivity.Companion.productlist
+import com.example.demoapi.SecondActivity.Companion.productList
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
 class ViewProduct : AppCompatActivity() {
 
 
-    lateinit var pagerview: ViewPager
-    lateinit var title: TextView
-    lateinit var rating: TextView
-    lateinit var discription: TextView
-    lateinit var price: TextView
+    private lateinit var pagerView: ViewPager
+    private lateinit var title: TextView
+    private lateinit var rating: TextView
+    private lateinit var discription: TextView
+    private lateinit var price: TextView
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // hide title bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        supportActionBar?.hide()
+
+        //  for full Screen
+        this@ViewProduct.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_view_product)
 
-        pagerview = findViewById(R.id.proddetail)
+        pagerView = findViewById(R.id.proddetail)
         title = findViewById(R.id.title)
         rating = findViewById(R.id.rating)
         discription = findViewById(R.id.discription)
         price = findViewById(R.id.price)
 
-        var position = intent.getIntExtra("pos", 0)
+        val position = intent.getIntExtra("pos", 0)
 
+        Log.d("=====", "${productList[position]}")
 
-        Log.d("=====", "${productlist[position]}")
+        val myPagerAdapter = MyPagerAdapter(this@ViewProduct, productList[position].images)
 
-        var myPagerAdapter = MyPagerAdapter(this@ViewProduct, productlist[position].images)
-
-        pagerview.adapter = myPagerAdapter
-
+        pagerView.adapter = myPagerAdapter
 
         val dotsIndicator: DotsIndicator = findViewById(R.id.dots_indicator)
-        dotsIndicator.setViewPager(pagerview)
+        dotsIndicator.setViewPager(pagerView)
 
-        title.text = productlist[position].title
+        title.text = productList[position].title
 
-        rating.text = "Rating: " + productlist[position].rating.toString()
+        rating.text = "Rating: " + productList[position].rating.toString()
 
-        discription.text = productlist[position].description
+        discription.text = productList[position].description
 
-        price.text = productlist[position].price.toString() + "$"
+        price.text = productList[position].price.toString() + "$"
     }
 }

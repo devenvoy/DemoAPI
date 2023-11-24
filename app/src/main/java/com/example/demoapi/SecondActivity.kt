@@ -18,13 +18,13 @@ import org.json.JSONObject
 
 class SecondActivity : AppCompatActivity() {
 
-    lateinit var recView2: RecyclerView
-    lateinit var rGroup: RadioGroup
-    lateinit var sPrice: RadioButton
-    lateinit var sName: RadioButton
+    private lateinit var recView2: RecyclerView
+    private lateinit var rGroup: RadioGroup
+    private lateinit var sPrice: RadioButton
+    private lateinit var sName: RadioButton
 
     companion object {
-        var productlist = ArrayList<Product>()
+        var productList = ArrayList<Product>()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,15 +43,15 @@ class SecondActivity : AppCompatActivity() {
         getDataList()
         setDataList()
 
-        rGroup.setOnCheckedChangeListener { radioGroup, i ->
+        rGroup.setOnCheckedChangeListener { _, i ->
 
-            val rbtn :RadioButton = findViewById(i)
-            if (rbtn == sPrice) {
-                productlist.sortBy { it.price }
+            val rBtn: RadioButton = findViewById(i)
+            if (rBtn == sPrice) {
+                productList.sortBy { it.price }
                 setDataList()
             }
-            if (rbtn == sName) {
-                productlist.sortBy { it.title }
+            if (rBtn == sName) {
+                productList.sortBy { it.title }
                 setDataList()
             }
         }
@@ -60,7 +60,7 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun setDataList() {
-        val myRecAdapter2 = MyRecAdapter2(this@SecondActivity, productlist)
+        val myRecAdapter2 = MyRecAdapter2(this@SecondActivity, productList)
 
         recView2.adapter = myRecAdapter2
     }
@@ -73,30 +73,29 @@ class SecondActivity : AppCompatActivity() {
         val url = "https://dummyjson.com/products"
 // ioo
         val stringRequest = StringRequest(
-            Request.Method.GET, url, { Response ->
+            Request.Method.GET, url, { response ->
 
-                var prodObject = JSONObject(Response)
-                var products = prodObject.getJSONArray("products")
+                val prodObject = JSONObject(response)
+                val products = prodObject.getJSONArray("products")
 
-                for (index in 0 until products.length()) {
+                for (index in 0 ..<  products.length()) {
 
+                    val jObj = products.getJSONObject(index)
+                    val imgList = ArrayList<String>()
+                    val arrImg = jObj.getJSONArray("images")
 
-                    val jobj = products.getJSONObject(index)
-                    val imglist = ArrayList<String>()
-                    val imgarr = jobj.getJSONArray("images")
-
-                    for (x in 0 until imgarr.length()) {
-                        imglist.add(imgarr.getString(x))
+                    for (x in 0..< arrImg.length()) {
+                        imgList.add(arrImg.getString(x))
                     }
-                    productlist.add(
+                    productList.add(
                         Product(
-                            jobj.getInt("id"),
-                            jobj.getString("title"),
-                            jobj.getString("description"),
-                            jobj.getDouble("price"),
-                            jobj.getDouble("rating"),
-                            jobj.getString("thumbnail"),
-                            imglist
+                            jObj.getInt("id"),
+                            jObj.getString("title"),
+                            jObj.getString("description"),
+                            jObj.getDouble("price"),
+                            jObj.getDouble("rating"),
+                            jObj.getString("thumbnail"),
+                            imgList
                         )
                     )
                 }
@@ -113,13 +112,13 @@ class SecondActivity : AppCompatActivity() {
         val connectivityManager =
             getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork
             val capabilities = connectivityManager.getNetworkCapabilities(network)
-            return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+            capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
         } else {
             val networkInfo = connectivityManager.activeNetworkInfo
-            return networkInfo?.isConnected == true
+            networkInfo?.isConnected == true
         }
     }
 
